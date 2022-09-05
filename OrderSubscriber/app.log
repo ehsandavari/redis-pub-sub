@@ -1,0 +1,19 @@
+{100 12000 apdskofpaskdjf;ajsd;fpaijosd;ifo}
+{1 12000 apdskofpaskdjf;ajsd;fpaijosd;ifo}
+
+2022/09/02 00:10:27 [31;1m/Users/ehsan/Desktop/snappfood/A/OrderSubscriber/Persistence/Repositories/GenericRepository.go:24 [35;1mError 1062: Duplicate entry '1' for key 'orders.PRIMARY'
+[0m[33m[16.714ms] [34;1m[rows:0][0m INSERT INTO `orders` (`price`,`title`,`id`) VALUES (12000,'apdskofpaskdjf;ajsd;fpaijosd;ifo',1)
+{1 12000 apdskofpaskdjf;ajsd;fpaijosd;ifo}
+
+2022/09/02 00:10:32 [31;1m/Users/ehsan/Desktop/snappfood/A/OrderSubscriber/Persistence/Repositories/GenericRepository.go:24 [35;1mError 1062: Duplicate entry '1' for key 'orders.PRIMARY'
+[0m[33m[15.785ms] [34;1m[rows:0][0m INSERT INTO `orders` (`price`,`title`,`id`) VALUES (12000,'apdskofpaskdjf;ajsd;fpaijosd;ifo',1)
+{1 12000 apdskofpaskdjf;ajsd;fpaijosd;ifo}
+
+2022/09/02 00:10:33 [31;1m/Users/ehsan/Desktop/snappfood/A/OrderSubscriber/Persistence/Repositories/GenericRepository.go:24 [35;1mError 1062: Duplicate entry '1' for key 'orders.PRIMARY'
+[0m[33m[17.047ms] [34;1m[rows:0][0m INSERT INTO `orders` (`price`,`title`,`id`) VALUES (12000,'apdskofpaskdjf;ajsd;fpaijosd;ifo',1)
+{1 12000 apdskofpaskdjf;ajsd;fpaijosd;ifo}
+
+2022/09/02 00:10:42 [31;1m/Users/ehsan/Desktop/snappfood/A/OrderSubscriber/Persistence/Repositories/GenericRepository.go:24 [35;1mError 1062: Duplicate entry '1' for key 'orders.PRIMARY'
+[0m[33m[16.365ms] [34;1m[rows:0][0m INSERT INTO `orders` (`price`,`title`,`id`) VALUES (12000,'apdskofpaskdjf;ajsd;fpaijosd;ifo',1)
+{1 12000 apdskofpaskdjf;ajsd;fpaijosd;ifo}
+{123 12000 apdskofpaskdjf;ajsd;fpaijosd;ifo}

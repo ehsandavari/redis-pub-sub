@@ -1,0 +1,8 @@
+application:
+  host: localhost
+  port: 8000
+
+redis:
+  url: localhost:6379
+  queues:
+    orders: orders
