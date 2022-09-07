@@ -10,6 +10,6 @@ import (
 type (
 	IRedis interface {
 		Subscribe(ctx context.Context, channelName DomainEnums.RedisQueues, channel chan<- string)
-		Close()
+		Close() error
 	}
 )

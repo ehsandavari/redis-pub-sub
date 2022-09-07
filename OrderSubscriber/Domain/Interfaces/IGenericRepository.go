@@ -9,6 +9,6 @@ type GenericRepositoryConstraint interface {
 }
 
 type IGenericRepository[T GenericRepositoryConstraint] interface {
-	Find() (T, error)
-	Add(model *T) (T, error)
+	Find() T
+	Add(model T) T
 }

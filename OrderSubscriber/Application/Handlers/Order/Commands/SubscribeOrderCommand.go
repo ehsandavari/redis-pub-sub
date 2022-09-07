@@ -25,22 +25,21 @@ func NewSubscribeOrderCommand(sConfiguration config.SConfiguration, iUnitOfWork 
 	}
 }
 
-func (rSOrderCommand SSubscribeOrderCommand) SubscribeOrderCommand(ctx context.Context) {
+func (rSOrderCommand SSubscribeOrderCommand) SubscribeOrderCommand(ctx context.Context) error {
 	channel := make(chan string)
-	defer close(channel)
 	go rSOrderCommand.iRedis.Subscribe(ctx, rSOrderCommand.sConfiguration.Redis.Queues[DomainEnums.ORDERS], channel)
-	orderEntity := DomainEntities.OrderEntity{}
-	for {
-		select {
-		case channelData := <-channel:
-			if err := json.Unmarshal([]byte(channelData), &orderEntity); err != nil {
-				panic(err)
+	go func() {
+		orderEntity := DomainEntities.OrderEntity{}
+		for {
+			select {
+			case channelData := <-channel:
+				if err := json.Unmarshal([]byte(channelData), &orderEntity); err != nil {
+					panic(err)
+				}
+				add := rSOrderCommand.iUnitOfWork.OrderRepository().Add(orderEntity)
+				fmt.Println(add)
 			}
-			add, err := rSOrderCommand.iUnitOfWork.OrderRepository().Add(&orderEntity)
-			if err != nil {
-				panic(err)
-			}
-			fmt.Println(add)
 		}
-	}
+	}()
+	return nil
 }

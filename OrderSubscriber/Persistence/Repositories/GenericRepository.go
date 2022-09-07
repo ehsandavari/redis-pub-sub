@@ -6,22 +6,22 @@ import (
 )
 
 type GenericRepository[T DomainInterfaces.GenericRepositoryConstraint] struct {
-	DataBase Persistence.Database
+	DataBase *Persistence.Database
 }
 
-func NewGenericRepository[T DomainInterfaces.GenericRepositoryConstraint](db Persistence.Database) GenericRepository[T] {
+func NewGenericRepository[T DomainInterfaces.GenericRepositoryConstraint](db *Persistence.Database) GenericRepository[T] {
 	return GenericRepository[T]{
 		DataBase: db,
 	}
 }
 
-func (GR GenericRepository[T]) Find() (T, error) {
-	var a T
-	GR.DataBase.Gorm.First(&a)
-	return a, nil
+func (GR GenericRepository[T]) Find() T {
+	var find T
+	GR.DataBase.Gorm.First(&find)
+	return find
 }
 
-func (GR GenericRepository[T]) Add(model *T) (T, error) {
+func (GR GenericRepository[T]) Add(model T) T {
 	GR.DataBase.Gorm.Create(&model)
-	return *model, nil
+	return model
 }

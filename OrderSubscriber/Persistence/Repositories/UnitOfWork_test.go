@@ -14,7 +14,7 @@ import (
 )
 
 type Suite struct {
-	db         Persistence.Database
+	db         *Persistence.Database
 	mock       sqlmock.Sqlmock
 	NameEntity Entities.OrderEntity
 }
@@ -56,7 +56,7 @@ func TestUnitOfWork(t *testing.T) {
 
 	defer db.Close()
 
-	var name = &Entities.OrderEntity{
+	var name = Entities.OrderEntity{
 		Id:    1,
 		Price: 100,
 		Title: "order",
@@ -65,20 +65,20 @@ func TestUnitOfWork(t *testing.T) {
 	t.Run("Rollback on error", func(t *testing.T) {
 		unitOfWork := NewUnitOfWork(s.db)
 		err = unitOfWork.Do(func(work DomainInterfaces.IUnitOfWork) error {
-			_, err = work.OrderRepository().Add(name)
+			_ = work.OrderRepository().Add(name)
 			require.NoError(t, err)
 
 			name.Id = 2
 			name.Price = 24
 			name.Title = "test"
-			_, err = work.OrderRepository().Add(name)
+			_ = work.OrderRepository().Add(name)
 			require.NoError(t, err)
 
 			return nil
 		})
 
 		if assert.ErrorIs(t, err, nil) {
-			find, _ := unitOfWork.OrderRepository().Find()
+			find := unitOfWork.OrderRepository().Find()
 			assert.EqualValues(t, find, nil)
 		}
 	})

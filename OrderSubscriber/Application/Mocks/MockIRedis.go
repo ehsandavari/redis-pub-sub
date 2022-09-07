@@ -36,9 +36,10 @@ func (m *MockIRedis) EXPECT() *MockIRedisMockRecorder {
 }
 
 // Close mocks base method.
-func (m *MockIRedis) Close() {
+func (m *MockIRedis) Close() error {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Close")
+	return nil
 }
 
 // Close indicates an expected call of Close.

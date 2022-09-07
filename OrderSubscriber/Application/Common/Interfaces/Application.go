@@ -6,6 +6,6 @@ import (
 
 type (
 	IOrderHandlerCommands interface {
-		SubscribeOrderCommand(ctx context.Context)
+		SubscribeOrderCommand(ctx context.Context) error
 	}
 )

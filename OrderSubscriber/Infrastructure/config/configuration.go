@@ -2,7 +2,6 @@ package config
 
 import (
 	DomainEnums "OrderSubscriber/Domain/Enums"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"os"
 )
@@ -17,7 +16,7 @@ type SConfiguration struct {
 	} `mapstructure:"redis"`
 }
 
-func NewConfiguration() SConfiguration {
+func NewConfiguration() (SConfiguration, error) {
 	viper.AutomaticEnv()
 	viper.AddConfigPath(".")
 	viper.SetConfigName("config.dev" + os.Getenv("env"))
@@ -25,14 +24,12 @@ func NewConfiguration() SConfiguration {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Panic(err, "Fatal error reading config")
-	} else {
-		log.WithFields(log.Fields{"config": viper.ConfigFileUsed()}).Info("Viper config")
+		return SConfiguration{}, err
 	}
 
 	configuration := SConfiguration{}
 	if err := viper.Unmarshal(&configuration); err != nil {
-		log.Panic(err, "Error Unmarshal Viper Config File")
+		return SConfiguration{}, err
 	}
-	return configuration
+	return configuration, nil
 }

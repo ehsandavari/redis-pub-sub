@@ -5,7 +5,6 @@ import (
 	DomainEnums "OrderSubscriber/Domain/Enums"
 	"context"
 	"github.com/go-redis/redis/v8"
-	log "github.com/sirupsen/logrus"
 )
 
 type SRedis struct {
@@ -28,9 +27,10 @@ func (rRedis SRedis) Subscribe(ctx context.Context, channelName DomainEnums.Redi
 	}
 }
 
-func (rRedis *SRedis) Close() {
+func (rRedis *SRedis) Close() error {
 	err := rRedis.Client.Close()
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
+	return nil
 }

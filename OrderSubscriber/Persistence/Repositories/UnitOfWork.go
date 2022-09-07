@@ -7,25 +7,25 @@ import (
 )
 
 type sUnitOfWork struct {
-	conn            Persistence.Database
+	conn            *Persistence.Database
 	orderRepository DomainInterfaces.IOrderRepository
 }
 
-func (SUnitOfWork sUnitOfWork) OrderRepository() DomainInterfaces.IOrderRepository {
-	return SUnitOfWork.orderRepository
-}
-
-func NewUnitOfWork(db Persistence.Database) DomainInterfaces.IUnitOfWork {
+func NewUnitOfWork(db *Persistence.Database) DomainInterfaces.IUnitOfWork {
 	return &sUnitOfWork{
 		conn:            db,
 		orderRepository: NewOrderRepository(db),
 	}
 }
 
-func (SUnitOfWork sUnitOfWork) Do(fn DomainInterfaces.UnitOfWorkBlock) error {
-	return SUnitOfWork.conn.Gorm.Transaction(func(tx *gorm.DB) error {
-		SUnitOfWork.conn.Gorm = tx
+func (SUnitOfWork sUnitOfWork) OrderRepository() DomainInterfaces.IOrderRepository {
+	return SUnitOfWork.orderRepository
+}
+
+func (SUnitOfWork sUnitOfWork) Do(unitOfWorkBlock DomainInterfaces.UnitOfWorkBlock) error {
+	return SUnitOfWork.conn.Gorm.Transaction(func(transaction *gorm.DB) error {
+		SUnitOfWork.conn.Gorm = transaction
 		SUnitOfWork.orderRepository = NewOrderRepository(SUnitOfWork.conn)
-		return fn(SUnitOfWork)
+		return unitOfWorkBlock(SUnitOfWork)
 	})
 }

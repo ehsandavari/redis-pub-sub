@@ -2,7 +2,6 @@ package Persistence
 
 import (
 	DomainEntities "OrderSubscriber/Domain/Entities"
-	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -11,39 +10,40 @@ type Database struct {
 	Gorm *gorm.DB
 }
 
-func NewDatabase(url string) Database {
+func NewDatabase(url string) (*Database, error) {
 	cfg := &gorm.Config{}
 
 	db, err := gorm.Open(mysql.Open(url), cfg)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
-	instance := Database{
+	instance := &Database{
 		Gorm: db,
 	}
 
 	err = instance.setup()
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
-	return instance
+	return instance, nil
 }
 
-func (rDb Database) setup() error {
+func (rDb *Database) setup() error {
 	return rDb.Gorm.AutoMigrate(
 		&DomainEntities.OrderEntity{},
 	)
 }
 
-func (rDb Database) Close() {
+func (rDb *Database) Close() error {
 	db, err := rDb.Gorm.DB()
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 	err = db.Close()
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
+	return nil
 }

@@ -10,7 +10,7 @@ type OrderRepository struct {
 	GenericRepository[DomainEntities.OrderEntity]
 }
 
-func NewOrderRepository(db Persistence.Database) DomainInterfaces.IOrderRepository {
+func NewOrderRepository(db *Persistence.Database) DomainInterfaces.IOrderRepository {
 	return OrderRepository{
 		GenericRepository: NewGenericRepository[DomainEntities.OrderEntity](db),
 	}
