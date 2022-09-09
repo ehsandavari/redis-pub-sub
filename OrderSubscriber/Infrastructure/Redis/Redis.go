@@ -19,12 +19,15 @@ func NewRedis(host string) ApplicationInterfaces.IRedis {
 	}
 }
 
-func (rRedis SRedis) Subscribe(ctx context.Context, channelName DomainEnums.RedisQueues, channel chan<- string) {
+func (rRedis *SRedis) Subscribe(ctx context.Context, channelName DomainEnums.RedisQueues) <-chan string {
 	var subscribe = rRedis.Client.Subscribe(ctx, string(channelName))
-	defer subscribe.Close()
-	for msg := range subscribe.Channel() {
-		channel <- msg.Payload
-	}
+	channel := make(chan string)
+	go func() {
+		for msg := range subscribe.Channel() {
+			channel <- msg.Payload
+		}
+	}()
+	return channel
 }
 
 func (rRedis *SRedis) Close() error {

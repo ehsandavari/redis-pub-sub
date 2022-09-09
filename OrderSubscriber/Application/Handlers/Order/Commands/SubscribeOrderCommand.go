@@ -26,8 +26,7 @@ func NewSubscribeOrderCommand(sConfiguration config.SConfiguration, iUnitOfWork 
 }
 
 func (rSOrderCommand SSubscribeOrderCommand) SubscribeOrderCommand(ctx context.Context) error {
-	channel := make(chan string)
-	go rSOrderCommand.iRedis.Subscribe(ctx, rSOrderCommand.sConfiguration.Redis.Queues[DomainEnums.ORDERS], channel)
+	channel := rSOrderCommand.iRedis.Subscribe(ctx, rSOrderCommand.sConfiguration.Redis.Queues[DomainEnums.ORDERS])
 	go func() {
 		orderEntity := DomainEntities.OrderEntity{}
 		for {

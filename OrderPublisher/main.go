@@ -13,7 +13,6 @@ func main() {
 	irisApp.Use(Common.ErrorHandlerMiddleware)
 	configuration := config.NewConfiguration()
 	redis := Redis.NewRedis(configuration.Redis.URL)
-	defer redis.Close()
 	Api.NewApplication(
 		configuration,
 		redis,

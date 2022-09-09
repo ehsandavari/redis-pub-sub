@@ -18,7 +18,7 @@ func NewApplication(configuration config.SConfiguration, iRedis ApplicationInter
 	}
 }
 
-func (rAppController SApplication) SetupAPI(app *iris.Application) {
+func (rAppController *SApplication) SetupAPI(app *iris.Application) {
 	api := app.Party("/api")
 	rAppController.registerOrderAPI(api)
 }
